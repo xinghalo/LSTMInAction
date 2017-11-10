@@ -113,11 +113,12 @@ Xtrain, Ytrain = X, Y
 
 # LSTM network
 model = Sequential()
-model.add(Embedding(vocab_sz, EMBED_SIZE, input_length=MAX_LEN))
-model.add(MaxPooling1D(pool_size=2, strides=1))
-model.add(SpatialDropout1D(Dropout(0.2)))
-model.add(LSTM(HIDDEN_LAYER_SIZE, dropout=0.2, recurrent_dropout=0.2))
-model.add(Dense(NB_CLASSES))
+# 定义输入20维
+model.add(Embedding(vocab_sz, EMBED_SIZE, input_length=MAX_LEN)) # 嵌入层，转换向量
+model.add(MaxPooling1D(pool_size=2, strides=1)) # 池化层
+model.add(SpatialDropout1D(Dropout(0.2))) # 抓爆层、断开神经元的连接
+model.add(LSTM(HIDDEN_LAYER_SIZE, dropout=0.2, recurrent_dropout=0.2))#循环层
+model.add(Dense(NB_CLASSES)) # 全连接层
 model.add(Activation("softmax"))
 
 model.compile(loss="categorical_crossentropy", optimizer="rmsprop", metrics=["accuracy"])
